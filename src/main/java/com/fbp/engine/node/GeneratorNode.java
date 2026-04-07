@@ -6,7 +6,6 @@ import com.fbp.engine.core.impl.DefaultOutputPort;
 import com.fbp.engine.message.Message;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -26,10 +25,10 @@ public class GeneratorNode implements Node {
 
     @Override
     public void process(Message message) {
-
+        // 비워둬도 됨
     }
 
-    public void generate(String key, Object value){
+    public void generate(String key, Object value) {
         outputPort.send(new Message(Map.of(key, value)));
     }
 

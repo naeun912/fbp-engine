@@ -7,15 +7,16 @@ import com.fbp.engine.core.impl.DefaultInputPort;
 import com.fbp.engine.core.impl.DefaultOutputPort;
 import com.fbp.engine.message.Message;
 import lombok.Getter;
+import lombok.Setter;
 
-
+@Setter
 @Getter
 public class FilterNode implements Node {
     private final String id;
     private final String key;
     private final Double threshold;
-    private final InputPort inputPort;
-    private final OutputPort outputPort;
+    private InputPort inputPort;
+    private OutputPort outputPort;
 
     public FilterNode(String id, String key, Double threshold) {
         this.id = id;
@@ -33,12 +34,11 @@ public class FilterNode implements Node {
     @Override
     public void process(Message message) {
         Double value = message.get(this.key);
-        if(value >= this.threshold){
-            outputPort.send(message);
+        if (value != null && value >= this.threshold) {
+            this.outputPort.send(message);
             System.out.println("[" + id + "] 필터 통과 >> (" + key + ": " + value + ")");
-        }else {
-            System.out.println("실패!@!@");
+        } else {
+            System.out.println("실패!@!@\n" + "key : " + key + "value : " + value);
         }
-
     }
 }

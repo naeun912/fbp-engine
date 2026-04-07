@@ -41,9 +41,7 @@ class ConnectionTest {
     @DisplayName("target 미설정 시 동작")
     void targetNullTest() {
         inputPort = null;
-        assertDoesNotThrow(() -> {
-            connection.deliver(message);
-        });
+        assertDoesNotThrow(() -> connection.deliver(message));
     }
 
     @Test

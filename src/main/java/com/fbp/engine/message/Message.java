@@ -30,9 +30,11 @@ public record Message(String id, Map<String, Object> payload, long timestamp) {
         return new Message(newPayload);
     }
 
-    public Message withoutKey(String key){
+    public Message withoutKey(String key) {
         Map<String, Object> newPayload = new HashMap<>(this.payload);
         newPayload.remove(key);
         return new Message(newPayload);
     }
+
+
 }
