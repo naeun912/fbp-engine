@@ -38,7 +38,7 @@ public class FilterNode implements Node {
             this.outputPort.send(message);
             System.out.println("[" + id + "] 필터 통과 >> (" + key + ": " + value + ")");
         } else {
-            System.out.println("실패!@!@\n" + "key : " + key + "value : " + value);
+            System.out.println("실패!!\n 실패한 값 : " + "key : " + key + "value : " + value);
         }
     }
 }

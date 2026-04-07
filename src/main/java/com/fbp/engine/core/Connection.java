@@ -5,36 +5,46 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
-import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Getter
 @Setter
 @ToString
 public class Connection {
-    private final Queue<Message> buffer;
-    private InputPort target;
+    private final LinkedBlockingQueue<Message> buffer;
     private final String id;
 
-    public Connection(Queue<Message> buffer, InputPort target, String id) {
-        this.buffer = buffer;
-        this.target = target;
-        this.id = id;
+
+    public Connection(String id) {
+        this(id, 100);
+
     }
 
-    public void deliver(Message message){
-        buffer.offer(message);
+    public Connection(String id, int capacity) {
+        this.id = id;
+        this.buffer = new LinkedBlockingQueue<>(capacity);
+    }
 
-        if (target != null) {
-            Message msg = buffer.poll();
-            if (msg != null) {
-                target.receive(msg);
-            }
+    public void deliver(Message message) {
+        try {
+            buffer.put(message);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public int getBufferSize(){
+    public Message poll() {
+        try {
+            return buffer.take();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getBufferSize() {
         return buffer.size();
     }
+
 
 }

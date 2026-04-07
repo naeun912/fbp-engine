@@ -24,7 +24,7 @@ class ConnectionTest {
 
         inputPort = mock(InputPort.class);
 
-        connection = new Connection(buffer, inputPort, "conn-1");
+//        connection = new Connection(buffer, inputPort, "conn-1");
 
         message = new Message(Map.of("temperature", 25.5));
     }
@@ -50,7 +50,7 @@ class ConnectionTest {
         connection.deliver(message);
         assertEquals(0, connection.getBufferSize());
 
-        connection.setTarget(null);
+//        connection.setTarget(null);
         connection.deliver(message);
         assertEquals(1, connection.getBufferSize());
     }
@@ -58,7 +58,7 @@ class ConnectionTest {
     @Test
     @DisplayName("다수 메세지 순서 보장")
     void messageTest() {
-        connection.setTarget(null);
+//        connection.setTarget(null);
 
         Message message1 = new Message(Map.of("temperature", 25.5));
         Message message2 = new Message(Map.of("temperature", 25.6));

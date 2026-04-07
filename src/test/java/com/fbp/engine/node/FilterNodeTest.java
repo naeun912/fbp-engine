@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -21,7 +20,7 @@ class FilterNodeTest {
     @BeforeEach
     void setUp() {
         filter = new FilterNode("filter-1", "temperature", 30.0);
-        connection = new Connection(new LinkedList<>(), filter.getInputPort(), "connection-filter");
+//        connection = new Connection(new LinkedList<>(), filter.getInputPort(), "connection-filter");
         outputPort = mock(OutputPort.class);
         filter.setOutputPort(outputPort);
     }
