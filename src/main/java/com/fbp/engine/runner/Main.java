@@ -2,8 +2,9 @@ package com.fbp.engine.runner;
 
 import com.fbp.engine.core.Connection;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.FilterNode;
+import com.fbp.engine.node.AbstractNode;
 import com.fbp.engine.node.impl.PrintNode;
+import com.fbp.engine.node.impl.SplitNode;
 import com.fbp.engine.node.impl.TimerNode;
 
 /**
@@ -13,52 +14,51 @@ public class Main {
 
     public static void main(String[] args) {
         TimerNode timer = new TimerNode("timer-1", 500);
-        FilterNode filter = new FilterNode("filter-1", "tick", 3.0);
-        PrintNode printer = new PrintNode("printer-1");
 
-        Connection conn1 = new Connection("connection - 1");
-        Connection conn2 = new Connection("connection - 2");
+        SplitNode splitter = new SplitNode("split-1", "tick", 3.0);
 
-        timer.getOutputPort("out").connect(conn1);
-        filter.getOutputPort("out").connect(conn2);
+        PrintNode warningPrint = new PrintNode("⚠️ 경고");
+        PrintNode normalPrint = new PrintNode("✅ 정상");
+
+
+        Connection c_in = new Connection("c_in");
+        Connection c_match = new Connection("c_match");
+        Connection c_mismatch = new Connection("c_mismatch");
+
+
+        timer.getOutputPort("out").connect(c_in);
+        splitter.getOutputPort("match").connect(c_match);
+        splitter.getOutputPort("mismatch").connect(c_mismatch);
+
+
+        startWorker(c_in, splitter);
+        startWorker(c_match, warningPrint);
+        startWorker(c_mismatch, normalPrint);
+
 
         timer.initialize();
-        filter.initialize();
-        printer.initialize();
-
-        Thread thread1 = new Thread(() -> {
-            try {
-                while (true) {
-                    Message message1 = conn1.poll();
-                    filter.getInputPort("in").receive(message1);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        thread1.setDaemon(true);
-        thread1.start();
-
-        Thread thread2 = new Thread(() -> {
-            try {
-                while (true) {
-                    Message message2 = conn2.poll();
-                    printer.getInputPort("in").receive(message2);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        thread2.setDaemon(true);
-        thread2.start();
-
         try {
-            Thread.sleep(3000);
-            timer.shutdown();
-            filter.shutdown();
-            printer.shutdown();
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        timer.shutdown();
+    }
+
+    private static void startWorker(Connection conn, AbstractNode nextNode) {
+        Thread t = new Thread(() -> {
+            try {
+                while (true) {
+                    Message m = conn.poll();
+                    if (m != null) {
+                        nextNode.getInputPort("in").receive(m);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 }

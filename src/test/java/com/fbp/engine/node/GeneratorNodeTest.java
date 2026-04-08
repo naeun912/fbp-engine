@@ -4,6 +4,7 @@ import com.fbp.engine.core.Connection;
 import com.fbp.engine.core.OutputPort;
 import com.fbp.engine.core.impl.DefaultOutputPort;
 import com.fbp.engine.message.Message;
+import com.fbp.engine.node.impl.GeneratorNode;
 import com.fbp.engine.node.impl.PrintNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +26,7 @@ class GeneratorNodeTest {
         generatorNode = new GeneratorNode("generate - 1");
         connection = mock(Connection.class);
         outputPort = new DefaultOutputPort();
-        generatorNode.getOutputPort().connect(connection);
+        generatorNode.getOutputPort("out").connect(connection);
     }
 
     @Test
@@ -53,7 +54,7 @@ class GeneratorNodeTest {
     @Test
     @DisplayName("OutputPort 조회")
     void outputPortTest() {
-        assertNotNull(generatorNode.getOutputPort());
+        assertNotNull(generatorNode.getOutputPort("out"));
     }
 
     @Test

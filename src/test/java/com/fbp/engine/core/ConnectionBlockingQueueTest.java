@@ -1,7 +1,7 @@
 package com.fbp.engine.core;
 
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.GeneratorNode;
+import com.fbp.engine.node.impl.GeneratorNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class ConnectionBlockingQueueTest {
     void setUp() {
         connection = new Connection("connection - 1");
         generatorNode = new GeneratorNode("generate - 1");
-        generatorNode.getOutputPort().connect(connection);
+        generatorNode.getOutputPort("out").connect(connection);
         message = new Message(Map.of("temperature", 25.5));
         latch = new CountDownLatch(1);
         result = new AtomicReference<>();
