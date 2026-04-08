@@ -28,6 +28,16 @@ public class GeneratorNode implements Node {
         // 비워둬도 됨
     }
 
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
     public void generate(String key, Object value) {
         outputPort.send(new Message(Map.of(key, value)));
     }

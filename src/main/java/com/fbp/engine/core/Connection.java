@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
@@ -44,6 +45,11 @@ public class Connection {
 
     public int getBufferSize() {
         return buffer.size();
+    }
+
+    // ✨ 새로 만들 poll (기다릴 줄 아는 놈)
+    public Message poll(int timeout, TimeUnit unit) throws InterruptedException {
+        return buffer.poll(timeout, unit);
     }
 
 

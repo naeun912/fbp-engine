@@ -2,7 +2,7 @@ package com.fbp.engine.core.impl;
 
 import com.fbp.engine.core.InputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.PrintNode;
+import com.fbp.engine.node.impl.PrintNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class DefaultInputPortTest {
-    private Message message;
     private PrintNode printNode;
     private InputPort inputPort;
 
     @BeforeEach
     void setUp() {
-        Map<String, Object> payload = Map.of("temperature", 25.5);
-        message = new Message(payload);
         printNode = new PrintNode("printer-1");
         inputPort = new DefaultInputPort(printNode);
     }

@@ -4,6 +4,7 @@ import com.fbp.engine.core.InputPort;
 import com.fbp.engine.core.Node;
 import com.fbp.engine.core.impl.DefaultInputPort;
 import com.fbp.engine.message.Message;
+import com.fbp.engine.node.impl.PrintNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ class PrintNodeTest {
     @Test
     @DisplayName("inputPort 조회")
     void inputPortNotNullTest() {
-        assertNotNull(printNode.getInputPort());
+        assertNotNull(printNode.getInputPort("in"));
     }
 
     @Test
@@ -60,6 +61,26 @@ class PrintNodeTest {
         inputPort.receive(msg);
 
         verify(spyPrinter, times(1)).process(msg);
+    }
+
+    @Test
+    @DisplayName("포트 구성 확인")
+    void portTest() {
+        printNode.addInputPort("in");
+        assertNotNull(printNode.getInputPort("in"));
+    }
+
+    @Test
+    @DisplayName("process 정상 동작")
+    void processNotExceptionTest() {
+        assertDoesNotThrow(() -> printNode.onProcess(message));
+
+    }
+
+    @Test
+    @DisplayName("AbstractNode 상속 확인")
+    void abstractNodeInstanceofTest() {
+        assertTrue(printNode instanceof AbstractNode);
     }
 }
 
