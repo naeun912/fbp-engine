@@ -1,6 +1,7 @@
 package com.fbp.engine.runner;
 
 import com.fbp.engine.core.Connection;
+import com.fbp.engine.core.Flow;
 import com.fbp.engine.message.Message;
 import com.fbp.engine.node.AbstractNode;
 import com.fbp.engine.node.impl.PrintNode;
@@ -13,52 +14,52 @@ import com.fbp.engine.node.impl.TimerNode;
 public class Main {
 
     public static void main(String[] args) {
-        TimerNode timer = new TimerNode("timer-1", 500);
+        Flow flow = new Flow("temp-pipeline");
 
-        SplitNode splitter = new SplitNode("split-1", "tick", 3.0);
+        TimerNode timer = new TimerNode("timer", 1000);
+        SplitNode splitter = new SplitNode("splitter", "tick", 3);
+        PrintNode warningPrint = new PrintNode("matchPrint");
+        PrintNode normalPrint = new PrintNode("mismatchPrint");
 
-        PrintNode warningPrint = new PrintNode("⚠️ 경고");
-        PrintNode normalPrint = new PrintNode("✅ 정상");
+        flow.addNode(timer)
+                .addNode(splitter)
+                .addNode(warningPrint)
+                .addNode(normalPrint)
+                .connect("timer", "out", "splitter", "in")
+                .connect("splitter", "match", "matchPrint", "in")
+                .connect("splitter", "mismatch", "mismatchPrint", "in");
 
+        startWorker(flow);
+        flow.initialize();
 
-        Connection c_in = new Connection("c_in");
-        Connection c_match = new Connection("c_match");
-        Connection c_mismatch = new Connection("c_mismatch");
-
-
-        timer.getOutputPort("out").connect(c_in);
-        splitter.getOutputPort("match").connect(c_match);
-        splitter.getOutputPort("mismatch").connect(c_mismatch);
-
-
-        startWorker(c_in, splitter);
-        startWorker(c_match, warningPrint);
-        startWorker(c_mismatch, normalPrint);
-
-
-        timer.initialize();
         try {
-            Thread.sleep(2500);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         timer.shutdown();
     }
 
-    private static void startWorker(Connection conn, AbstractNode nextNode) {
-        Thread t = new Thread(() -> {
-            try {
-                while (true) {
-                    Message m = conn.poll();
-                    if (m != null) {
-                        nextNode.getInputPort("in").receive(m);
+    private static void startWorker(Flow flow) {
+        for (Connection conn : flow.getConnections()) {
+            Thread t = new Thread(() -> {
+                try {
+                    while (true) {
+                        Message m = conn.poll();
+                        if (m != null) {
+                            String targetNodeId = conn.getId().split("->")[1].split(":")[0];
+                            String targetPort = conn.getId().split("->")[1].split(":")[1];
+
+                            AbstractNode nextNode = flow.getNodes().get(targetNodeId);
+                            nextNode.getInputPort(targetPort).receive(m);
+                        }
                     }
+                } catch (Exception e) {
+                    Thread.currentThread().interrupt();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        t.setDaemon(true);
-        t.start();
+            });
+            t.setDaemon(true);
+            t.start();
+        }
     }
 }
