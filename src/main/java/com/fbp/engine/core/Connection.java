@@ -47,7 +47,7 @@ public class Connection {
         return buffer.size();
     }
 
-    // ✨ 새로 만들 poll (기다릴 줄 아는 놈)
+    // 테스트용
     public Message poll(int timeout, TimeUnit unit) throws InterruptedException {
         return buffer.poll(timeout, unit);
     }

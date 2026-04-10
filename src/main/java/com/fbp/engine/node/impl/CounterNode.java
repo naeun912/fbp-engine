@@ -2,7 +2,9 @@ package com.fbp.engine.node.impl;
 
 import com.fbp.engine.message.Message;
 import com.fbp.engine.node.AbstractNode;
+import lombok.Getter;
 
+@Getter
 public class CounterNode extends AbstractNode {
     private int count = 0;
 

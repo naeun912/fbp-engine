@@ -12,10 +12,6 @@ public class GeneratorNode extends AbstractNode {
         addOutputPort("out");
     }
 
-    /**
-     * 데이터를 생성해서 "out" 포트로 쏴주는 메서드
-     * 과제 6-2에서 화씨 온도를 생성할 때 이 메서드를 호출하면 됩니다.
-     */
     public void generate(String key, Object value) {
         Message message = new Message(Map.of(key, value));
         send("out", message);
