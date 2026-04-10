@@ -14,11 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class Connection {
     private final LinkedBlockingQueue<Message> buffer;
     private final String id;
-
+    private InputPort target;
 
     public Connection(String id) {
         this(id, 100);
-
     }
 
     public Connection(String id, int capacity) {
@@ -51,6 +50,5 @@ public class Connection {
     public Message poll(int timeout, TimeUnit unit) throws InterruptedException {
         return buffer.poll(timeout, unit);
     }
-
 
 }

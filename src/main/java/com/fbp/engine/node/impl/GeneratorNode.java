@@ -15,7 +15,7 @@ public class GeneratorNode extends AbstractNode {
     public void generate(String key, Object value) {
         Message message = new Message(Map.of(key, value));
         send("out", message);
-        System.out.println("[" + getId() + "] 📤 데이터 생성: " + key + " = " + value);
+        System.out.println("[" + getId() + "] 데이터 생성: " + key + " = " + value);
     }
 
     @Override

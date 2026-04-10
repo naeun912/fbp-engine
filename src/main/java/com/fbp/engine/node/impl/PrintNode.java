@@ -16,14 +16,4 @@ public class PrintNode extends AbstractNode {
     public void onProcess(Message message) {
         System.out.println("[" + getId() + "] ✅ 결과 | " + message.payload());
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
 }

@@ -1,5 +1,6 @@
 package com.fbp.engine.core;
 
+import com.fbp.engine.core.impl.DefaultInputPort;
 import com.fbp.engine.node.AbstractNode;
 import lombok.Getter;
 
@@ -35,11 +36,13 @@ public class Flow {
         if (outputPort == null || inputPort == null) {
             throw new IllegalArgumentException("포트가 존재하지 않습니다.");
         }
+
         String id = String.format("%s:%s->%s:%s", sourceNodeId, sourcePort, targetNodeId, targetPort);
         Connection connection = new Connection(id);
+//        connection.setTarget(inputPort);
         connections.add(connection);
         outputPort.connect(connection);
-
+        ((DefaultInputPort) targetNode.getInputPort(targetPort)).setConnection(connection);
         return this;
     }
 
@@ -47,6 +50,7 @@ public class Flow {
         for (AbstractNode node : nodes.values()) {
             node.initialize();
         }
+
     }
 
     public void shutdown() {

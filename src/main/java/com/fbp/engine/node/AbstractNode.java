@@ -52,4 +52,26 @@ public abstract class AbstractNode implements Node {
     public OutputPort getOutputPort(String name) {
         return outputPorts.get(name);
     }
+
+    @Override
+    public void initialize() {
+        for (InputPort inputPort : getInputPorts().values()) {
+            Thread t = new Thread(() -> {
+                try {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        Message message = inputPort.receive();
+                        process(message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            t.setDaemon(true);
+            t.start();
+        }
+    }
+
+    @Override
+    public void shutdown() {
+    }
 }
