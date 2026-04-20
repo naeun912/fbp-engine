@@ -30,14 +30,5 @@ public class SplitNode extends AbstractNode {
             }
         }
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
+    
 }

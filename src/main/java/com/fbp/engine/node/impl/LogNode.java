@@ -23,14 +23,4 @@ public class LogNode extends AbstractNode {
 
         send("out", message);
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
 }

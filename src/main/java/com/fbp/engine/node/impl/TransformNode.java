@@ -22,14 +22,4 @@ public class TransformNode extends AbstractNode {
             send("out", result);
         }
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
 }

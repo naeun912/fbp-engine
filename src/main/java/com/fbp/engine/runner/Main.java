@@ -1,8 +1,8 @@
 package com.fbp.engine.runner;
 
 import com.fbp.engine.core.Flow;
+import com.fbp.engine.core.FlowEngine;
 import com.fbp.engine.node.impl.PrintNode;
-import com.fbp.engine.node.impl.SplitNode;
 import com.fbp.engine.node.impl.TimerNode;
 
 /**
@@ -10,29 +10,23 @@ import com.fbp.engine.node.impl.TimerNode;
  */
 public class Main {
 
-    public static void main(String[] args) {
-        Flow flow = new Flow("temp-pipeline");
+    public static void main(String[] args) throws InterruptedException {
+        FlowEngine engine = new FlowEngine();
 
-        TimerNode timer = new TimerNode("timer", 1000);
-        SplitNode splitter = new SplitNode("splitter", "tick", 3);
-        PrintNode warningPrint = new PrintNode("matchPrint");
-        PrintNode normalPrint = new PrintNode("mismatchPrint");
+        Flow flowA = new Flow("FlowA");
+        flowA.addNode(new TimerNode("timerA", 3000))
+                .addNode(new PrintNode("printA"))
+                .connect("timerA", "out", "printA", "in");
 
-        flow.addNode(timer)
-                .addNode(splitter)
-                .addNode(warningPrint)
-                .addNode(normalPrint)
-                .connect("timer", "out", "splitter", "in")
-                .connect("splitter", "match", "matchPrint", "in")
-                .connect("splitter", "mismatch", "mismatchPrint", "in");
+        Flow flowB = new Flow("FlowB");
+        flowB.addNode(new TimerNode("timerB", 5000))
+                .addNode(new PrintNode("printB"))
+                .connect("timerB", "out", "printB", "in");
 
-        flow.initialize();
+        engine.register(flowA);
+        engine.register(flowB);
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        flow.shutdown();
+        engine.startCLI();
     }
+
 }

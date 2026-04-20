@@ -26,7 +26,7 @@ class GeneratorNodeTest {
         generatorNode = new GeneratorNode("generate - 1");
         connection = mock(Connection.class);
         outputPort = new DefaultOutputPort();
-        generatorNode.getOutputPort("out").connect(connection);
+        generatorNode.getOutputPort().connect(connection);
     }
 
     @Test
@@ -54,7 +54,7 @@ class GeneratorNodeTest {
     @Test
     @DisplayName("OutputPort 조회")
     void outputPortTest() {
-        assertNotNull(generatorNode.getOutputPort("out"));
+        assertNotNull(generatorNode.getOutputPort());
     }
 
     @Test

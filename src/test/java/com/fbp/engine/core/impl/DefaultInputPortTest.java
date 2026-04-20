@@ -29,7 +29,7 @@ class DefaultInputPortTest {
         inputPort = new DefaultInputPort(spyPrinter);
         Message msg = new Message(Map.of("temperature", 25.5));
 
-        inputPort.receive(msg);
+        inputPort.receive();
 
         verify(spyPrinter, times(1)).process(msg);
     }

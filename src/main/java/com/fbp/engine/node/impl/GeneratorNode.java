@@ -1,30 +1,39 @@
 package com.fbp.engine.node.impl;
 
+import com.fbp.engine.core.Node;
+import com.fbp.engine.core.OutputPort;
+import com.fbp.engine.core.impl.DefaultOutputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.AbstractNode;
+import lombok.Getter;
 
 import java.util.Map;
 
-public class GeneratorNode extends AbstractNode {
+@Getter
+public class GeneratorNode implements Node {
+    private final String id;
+    private final OutputPort outputPort; // final을 붙여주면 더 안전해요!
 
     public GeneratorNode(String id) {
-        super(id);
-        addOutputPort("out");
-    }
-
-    public void generate(String key, Object value) {
-        Message message = new Message(Map.of(key, value));
-        send("out", message);
-        System.out.println("[" + getId() + "] 데이터 생성: " + key + " = " + value);
+        this.id = id;
+        this.outputPort = new DefaultOutputPort();
     }
 
     @Override
-    public void onProcess(Message message) {
+    public String getId() {
+        return this.id;
+    }
 
+    @Override
+    public void process(Message message) {
+    }
+
+    public void generate(String key, Object value) {
+        outputPort.send(new Message(Map.of(key, value)));
     }
 
     @Override
     public void initialize() {
+
     }
 
     @Override

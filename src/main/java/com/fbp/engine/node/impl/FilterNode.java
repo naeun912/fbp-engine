@@ -34,14 +34,4 @@ public class FilterNode extends AbstractNode {
             }
         }
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
 }

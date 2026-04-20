@@ -34,7 +34,7 @@ class ConnectionTest {
     void deliverTest() {
         connection.deliver(message);
 
-        verify(inputPort, times(1)).receive(message);
+        verify(inputPort, times(1)).receive();
     }
 
     @Test

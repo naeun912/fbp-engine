@@ -12,6 +12,10 @@ public class DefaultOutputPort implements OutputPort {
 
     private final List<Connection> connections = new ArrayList<>();
 
+    @Override
+    public List<Connection> getConnections() {
+        return connections;
+    }
 
     @Override
     public String getName() {

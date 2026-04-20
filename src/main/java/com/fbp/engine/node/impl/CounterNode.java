@@ -22,11 +22,6 @@ public class CounterNode extends AbstractNode {
     }
 
     @Override
-    public void initialize() {
-
-    }
-
-    @Override
     public void shutdown() {
         System.out.println("[" + getId() + "] 총 처리 메시지: " + count + "건");
     }

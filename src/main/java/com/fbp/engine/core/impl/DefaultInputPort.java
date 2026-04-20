@@ -4,11 +4,13 @@ import com.fbp.engine.core.Connection;
 import com.fbp.engine.core.InputPort;
 import com.fbp.engine.core.Node;
 import com.fbp.engine.message.Message;
+import lombok.Getter;
 import lombok.Setter;
 
 
 public class DefaultInputPort implements InputPort {
     private final Node owner;
+    @Getter
     @Setter
     private Connection connection;
 
@@ -24,7 +26,6 @@ public class DefaultInputPort implements InputPort {
     @Override
     public Message receive() {
         return connection.poll();
-//        owner.process(message);
     }
 
 }
