@@ -19,14 +19,14 @@ class DefaultInputPortTest {
     @BeforeEach
     void setUp() {
         printNode = new PrintNode("printer-1");
-        inputPort = new DefaultInputPort(printNode);
+        inputPort = new DefaultInputPort(printNode, "in");
     }
 
     @Test
     @DisplayName("receive 시 owner 호출")
     void ownerTest() {
         PrintNode spyPrinter = spy(printNode);
-        inputPort = new DefaultInputPort(spyPrinter);
+        inputPort = new DefaultInputPort(spyPrinter, "in");
         Message msg = new Message(Map.of("temperature", 25.5));
 
         inputPort.receive();

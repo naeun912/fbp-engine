@@ -4,8 +4,8 @@ import com.fbp.engine.message.Message;
 import com.fbp.engine.node.AbstractNode;
 
 public class ThresholdFilterNode extends AbstractNode {
-    private String fieldName;
-    private double threshold;
+    private final String fieldName;
+    private final double threshold;
 
     public ThresholdFilterNode(String id, String fieldName, double threshold) {
         super(id);
@@ -16,13 +16,14 @@ public class ThresholdFilterNode extends AbstractNode {
         addOutputPort("normal");
     }
 
-    @Override
     public void onProcess(Message message) {
-        Object value = message.get("temperature");
+        Object value = message.get(fieldName);
         if (value instanceof Number) {
-            double temperature = ((Number) value).doubleValue();
-            if (threshold < temperature) {
-                send("alert", message);
+            double o = ((Number) value).doubleValue();
+            if (threshold < o) {
+                Message alertMessage = message.withEntry("checkField", fieldName);
+//                send("alert", message);
+                send("alert", alertMessage);
             } else {
                 send("normal", message);
             }

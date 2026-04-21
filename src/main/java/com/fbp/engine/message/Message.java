@@ -35,6 +35,10 @@ public record Message(String id, Map<String, Object> payload, long timestamp) {
         newPayload.remove(key);
         return new Message(newPayload);
     }
-
-
+    
+    public Message withPayload(Map<String, Object> otherPayload) {
+        Map<String, Object> newPayload = new HashMap<>(this.payload);
+        newPayload.putAll(otherPayload);
+        return new Message(newPayload);
+    }
 }

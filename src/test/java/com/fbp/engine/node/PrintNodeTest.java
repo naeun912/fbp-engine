@@ -55,7 +55,7 @@ class PrintNodeTest {
     @DisplayName("inoutPort를 통한 수신")
     void inputPortTest() {
         PrintNode spyPrinter = spy(printNode);
-        InputPort inputPort = new DefaultInputPort(spyPrinter);
+        InputPort inputPort = new DefaultInputPort(spyPrinter, "in");
         Message msg = new Message(Map.of("temperature", 25.5));
 
         inputPort.receive();

@@ -6,11 +6,11 @@ import com.fbp.engine.node.AbstractNode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureSensorNode extends AbstractNode {
+public class HumiditySensorNode extends AbstractNode {
     private double min;
     private double max;
 
-    public TemperatureSensorNode(String id, double min, double max) {
+    public HumiditySensorNode(String id, double min, double max) {
         super(id);
         this.min = min;
         this.max = max;
@@ -20,18 +20,18 @@ public class TemperatureSensorNode extends AbstractNode {
 
     @Override
     public void onProcess(Message message) {
-        double randomTemp = min + Math.random() * (max - min);
-        double temperature = Math.round(randomTemp * 10.0) / 10.0;
+        double randomHumid = min + Math.random() * (max - min);
+        double humidity = Math.round(randomHumid * 10.0) / 10.0;
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("sensorId", getId());
-        payload.put("temperature", temperature);
-        payload.put("unit", "°C");
+        payload.put("humidity", humidity);
+        payload.put("unit", "%");
         payload.put("timestamp", System.currentTimeMillis());
 
         Message newMessage = new Message(payload);
         send("out", newMessage);
 
-        System.out.printf("[%s] 🌡️온도 생성 완료: %.1f°C\n", getId(), temperature);
+        System.out.printf("[%s] 🌡️습도 생성 완료: %.1f%%\n", getId(), humidity);
     }
 }

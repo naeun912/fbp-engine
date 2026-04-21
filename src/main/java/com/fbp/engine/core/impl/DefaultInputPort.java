@@ -10,17 +10,19 @@ import lombok.Setter;
 
 public class DefaultInputPort implements InputPort {
     private final Node owner;
+    private final String name;
     @Getter
     @Setter
     private Connection connection;
 
-    public DefaultInputPort(Node owner) {
+    public DefaultInputPort(Node owner, String name) {
         this.owner = owner;
+        this.name = name;
     }
 
     @Override
     public String getName() {
-        return "in";
+        return this.name;
     }
 
     @Override
