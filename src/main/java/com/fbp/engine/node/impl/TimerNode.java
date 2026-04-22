@@ -31,19 +31,22 @@ public class TimerNode extends AbstractNode {
     @Override
     public void initialize() {
         scheduler = Executors.newSingleThreadScheduledExecutor();
+        try {
+            scheduler.scheduleAtFixedRate(() -> {
+                tickCount++;
+                Message message = new Message(Map.of(
+                        "tick", tickCount,
+                        "timestamp", System.currentTimeMillis()
+                ));
 
-        scheduler.scheduleAtFixedRate(() -> {
-            tickCount++;
-            Message message = new Message(Map.of(
-                    "tick", tickCount,
-                    "timestamp", System.currentTimeMillis()
-            ));
+                send("out", message);
 
-            send("out", message);
+//            System.out.println("[" + getId() + "] 🕑tick : " + tickCount);
 
-            System.out.println("[" + getId() + "] 🕑tick : " + tickCount);
-
-        }, 0, intervalMs, TimeUnit.MILLISECONDS);
+            }, 0, intervalMs, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override

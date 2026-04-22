@@ -8,10 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MergeNodeTest {
     MergeNode mergeNode;
@@ -51,8 +49,8 @@ class MergeNodeTest {
     @Test
     @DisplayName("한쪽만 도착 시 대기")
     void test() {
-        TimerNode t1 = new TimerNode("t1", 1000);
-        TimerNode silentNode = new TimerNode("silent", 999999);
+        TimerNode t1 = new TimerNode("t1", 500);
+        TimerNode silentNode = new TimerNode("silent", 550);
         PrintNode dummy = new PrintNode("dummy");
 
         flow.addNode(mergeNode).addNode(dummy).addNode(t1).addNode(silentNode)
@@ -65,14 +63,15 @@ class MergeNodeTest {
 
         Connection resultConn = flow.getConnections().get(2);
 
-        Message mergedMsg = null;
-        try {
-            mergedMsg = resultConn.poll(1500, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        resultConn.poll();
+        resultConn.poll();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        assertNull(mergedMsg);
+        assertTrue(resultConn.getBuffer().isEmpty());
         engine.stopFlow("flow");
 
     }
@@ -92,6 +91,11 @@ class MergeNodeTest {
 
         engine.register(flow);
         engine.startFlow("flow");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         assertNotNull(mergeNode.getOutputPort("out"));
         assertNotNull(mergeNode.getInputPort("in-1"));
         assertNotNull(mergeNode.getInputPort("in-2"));

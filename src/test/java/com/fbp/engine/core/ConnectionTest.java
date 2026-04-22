@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class ConnectionTest {
     private Connection connection;
@@ -24,7 +24,7 @@ class ConnectionTest {
 
         inputPort = mock(InputPort.class);
 
-//        connection = new Connection(buffer, inputPort, "conn-1");
+        connection = new Connection("conn-1");
 
         message = new Message(Map.of("temperature", 25.5));
     }
@@ -34,7 +34,7 @@ class ConnectionTest {
     void deliverTest() {
         connection.deliver(message);
 
-        verify(inputPort, times(1)).receive();
+        assertEquals(1, connection.getBufferSize());
     }
 
     @Test
@@ -48,11 +48,11 @@ class ConnectionTest {
     @DisplayName("버퍼 크기 확인")
     void bufferSizeCheckTest() {
         connection.deliver(message);
-        assertEquals(0, connection.getBufferSize());
+        assertEquals(1, connection.getBufferSize());
 
 //        connection.setTarget(null);
         connection.deliver(message);
-        assertEquals(1, connection.getBufferSize());
+        assertEquals(2, connection.getBufferSize());
     }
 
     @Test
@@ -68,9 +68,9 @@ class ConnectionTest {
         connection.deliver(message2);
         connection.deliver(message3);
 
-        assertEquals(message1, buffer.poll());
-        assertEquals(message2, buffer.poll());
-        assertEquals(message3, buffer.poll());
+        assertEquals(message1, connection.poll());
+        assertEquals(message2, connection.poll());
+        assertEquals(message3, connection.poll());
 
         assertTrue(buffer.isEmpty());
 

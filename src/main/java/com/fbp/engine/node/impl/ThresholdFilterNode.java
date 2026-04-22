@@ -2,7 +2,9 @@ package com.fbp.engine.node.impl;
 
 import com.fbp.engine.message.Message;
 import com.fbp.engine.node.AbstractNode;
+import lombok.Getter;
 
+@Getter
 public class ThresholdFilterNode extends AbstractNode {
     private final String fieldName;
     private final double threshold;

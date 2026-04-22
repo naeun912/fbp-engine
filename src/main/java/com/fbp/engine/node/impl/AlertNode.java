@@ -20,13 +20,16 @@ public class AlertNode extends AbstractNode {
 //
 //        System.out.printf("[⚠️경고] 센서 '%s' 온도 %s°C — 임계값 초과!\n", sensorId, temp);
 //        System.out.printf("[⚠️경고] 센서 '%s' 습도 %s%% — 임계값 초과!\n", sensorId, humid);
-
+        String fieldName = message.get("checkField");
+        if (fieldName == null) {
+            System.out.println("[⛔️경고] 데이터 누락!");
+            return;
+        }
         Object sensorId = message.get("sensorId");
-        String fieldName = message.get("checkField"); // 필터가 적어준 필드명
-        Object value = message.get(fieldName); // 그 필드명으로 값을 꺼냄
+        Object value = message.get(fieldName);
         Object unit = message.get("unit");
 
-        if (sensorId == null || fieldName == null || value == null) {
+        if (sensorId == null || value == null) {
             System.out.println("[⛔️경고] 데이터 누락!");
             return;
         }

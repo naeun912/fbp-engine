@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileWriterNode extends AbstractNode {
+    public static final String FILE_PATH = "/Users/naeun/IdeaProjects/fbp-engine/fileWriter";
     private final String filePath;
     private BufferedWriter writer;
 
@@ -31,6 +32,7 @@ public class FileWriterNode extends AbstractNode {
 
     @Override
     public void initialize() {
+        super.initialize();
         try {
             writer = new BufferedWriter(new FileWriter(filePath, true));
         } catch (IOException e) {

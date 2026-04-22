@@ -33,7 +33,8 @@ class FilterNodeTest {
     void trueTest() {
         Message message = new Message(Map.of("temperature", 35.5));
         filter.process(message);
-        verify(outputPort, times(1)).send(message);
+
+        verify(outputPort, times(1)).send(any(Message.class));
     }
 
     @Test

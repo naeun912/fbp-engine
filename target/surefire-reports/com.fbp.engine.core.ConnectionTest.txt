@@ -1,0 +1,41 @@
+-------------------------------------------------------------------------------
+Test set: com.fbp.engine.core.ConnectionTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 3, Skipped: 0, Time elapsed: 0.030 s <<< FAILURE! -- in com.fbp.engine.core.ConnectionTest
+com.fbp.engine.core.ConnectionTest.deliverTest -- Time elapsed: 0.026 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.fbp.engine.core.Connection.deliver(com.fbp.engine.message.Message)" because "this.connection" is null
+	at com.fbp.engine.core.ConnectionTest.deliverTest(ConnectionTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.fbp.engine.core.ConnectionTest.messageTest -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.fbp.engine.core.Connection.deliver(com.fbp.engine.message.Message)" because "this.connection" is null
+	at com.fbp.engine.core.ConnectionTest.messageTest(ConnectionTest.java:67)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.fbp.engine.core.ConnectionTest.bufferSizeCheckTest -- Time elapsed: 0 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.fbp.engine.core.Connection.deliver(com.fbp.engine.message.Message)" because "this.connection" is null
+	at com.fbp.engine.core.ConnectionTest.bufferSizeCheckTest(ConnectionTest.java:50)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.fbp.engine.core.ConnectionTest.targetNullTest -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.NullPointerException: Cannot invoke "com.fbp.engine.core.Connection.deliver(com.fbp.engine.message.Message)" because "this.connection" is null
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:53)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:36)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3199)
+	at com.fbp.engine.core.ConnectionTest.targetNullTest(ConnectionTest.java:44)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.fbp.engine.core.Connection.deliver(com.fbp.engine.message.Message)" because "this.connection" is null
+	at com.fbp.engine.core.ConnectionTest.lambda$targetNullTest$0(ConnectionTest.java:44)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:49)
+	... 6 more
+
