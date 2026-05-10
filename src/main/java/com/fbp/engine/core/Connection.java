@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class Connection {
     private final LinkedBlockingQueue<Message> buffer;
     private final String id;
-    private InputPort target;
+//    private InputPort target;
 
     public Connection(String id) {
         this(id, 100);

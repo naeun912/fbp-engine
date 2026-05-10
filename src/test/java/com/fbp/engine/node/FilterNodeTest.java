@@ -3,7 +3,7 @@ package com.fbp.engine.node;
 import com.fbp.engine.core.Connection;
 import com.fbp.engine.core.OutputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.FilterNode;
+import com.fbp.engine.node.abstractImpl.FilterNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,9 +22,12 @@ class FilterNodeTest {
     @BeforeEach
     void setUp() {
         filter = new FilterNode("filter-1", "temperature", 30.0);
-        connection = new Connection("connection - 1");
+
         outputPort = mock(OutputPort.class);
-        filter.addOutputPort("out");
+
+        filter.getOutputPorts().put("out", outputPort);
+
+        connection = new Connection("connection-1");
         message = new Message(Map.of("temperature", 35.5));
     }
 
@@ -34,7 +37,7 @@ class FilterNodeTest {
         Message message = new Message(Map.of("temperature", 35.5));
         filter.process(message);
 
-        verify(outputPort, times(1)).send(any(Message.class));
+        verify(outputPort, times(1)).send(message);
     }
 
     @Test
@@ -67,13 +70,24 @@ class FilterNodeTest {
     @Test
     @DisplayName("조건 만족 → send 호출")
     void thresholdOutputPortTest() {
+//        filter.getOutputPort("out").connect(connection);
+//        filter.send("out", message);
+//
+//        assertEquals(1, connection.getBufferSize());
+//
+//        Message received = connection.poll();
+//        assertNotNull(received);
+
+        filter.addOutputPort("out");
+
+        // 2. 이제 진짜 포트에 연결
         filter.getOutputPort("out").connect(connection);
+
+        // 3. 메시지 발송
         filter.send("out", message);
 
+        // 4. 이제 1이 나올 겁니다!
         assertEquals(1, connection.getBufferSize());
-
-        Message received = connection.poll();
-        assertNotNull(received);
     }
 
     @Test

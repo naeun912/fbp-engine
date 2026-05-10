@@ -3,7 +3,7 @@ package com.fbp.engine.core.impl;
 import com.fbp.engine.core.Connection;
 import com.fbp.engine.core.OutputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.PrintNode;
+import com.fbp.engine.node.abstractImpl.PrintNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

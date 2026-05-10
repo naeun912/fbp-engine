@@ -1,8 +1,9 @@
 package com.fbp.engine.core.impl;
 
+import com.fbp.engine.core.Connection;
 import com.fbp.engine.core.InputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.PrintNode;
+import com.fbp.engine.node.abstractImpl.PrintNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,23 +16,28 @@ import static org.mockito.Mockito.*;
 class DefaultInputPortTest {
     private PrintNode printNode;
     private InputPort inputPort;
+    private Connection mockConnection; // 👈 커넥션 추가
 
     @BeforeEach
     void setUp() {
         printNode = new PrintNode("printer-1");
         inputPort = new DefaultInputPort(printNode, "in");
+        mockConnection = mock(Connection.class); // 👈 Mock 생성
     }
 
     @Test
-    @DisplayName("receive 시 owner 호출")
+    @DisplayName("receive 시 connection의 poll 호출 확인")
     void ownerTest() {
-        PrintNode spyPrinter = spy(printNode);
-        inputPort = new DefaultInputPort(spyPrinter, "in");
         Message msg = new Message(Map.of("temperature", 25.5));
 
-        inputPort.receive();
+        when(mockConnection.poll()).thenReturn(msg);
 
-        verify(spyPrinter, times(1)).process(msg);
+        ((DefaultInputPort) inputPort).setConnection(mockConnection);
+
+        Message result = inputPort.receive();
+
+        verify(mockConnection, times(1)).poll();
+        assertEquals(msg, result);
     }
 
     @Test

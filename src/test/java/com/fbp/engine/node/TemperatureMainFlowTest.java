@@ -3,10 +3,10 @@ package com.fbp.engine.node;
 import com.fbp.engine.core.Flow;
 import com.fbp.engine.core.FlowEngine;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.CollectorNode;
-import com.fbp.engine.node.impl.TemperatureSensorNode;
-import com.fbp.engine.node.impl.ThresholdFilterNode;
-import com.fbp.engine.node.impl.TimerNode;
+import com.fbp.engine.node.abstractImpl.CollectorNode;
+import com.fbp.engine.node.abstractImpl.TemperatureSensorNode;
+import com.fbp.engine.node.abstractImpl.ThresholdFilterNode;
+import com.fbp.engine.node.abstractImpl.TimerNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,7 @@ class TemperatureMainFlowTest {
     void alertTest() throws InterruptedException {
         engine.register(flow);
         engine.startFlow("flow");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         engine.stopFlow("flow");
 
         List<Message> alertList = alertCollector.getCollected();

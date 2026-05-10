@@ -30,11 +30,11 @@ public abstract class AbstractNode implements Node {
         onProcess(message);
     }
 
-    protected void addInputPort(String name) {
+    public void addInputPort(String name) {
         inputPorts.put(name, new DefaultInputPort(this, name));
     }
 
-    protected void addOutputPort(String name) {
+    public void addOutputPort(String name) {
         outputPorts.put(name, new DefaultOutputPort());
     }
 

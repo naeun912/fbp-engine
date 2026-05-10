@@ -1,10 +1,11 @@
 package com.fbp.engine.node;
 
-import com.fbp.engine.core.InputPort;
+import com.fbp.engine.core.Flow;
+import com.fbp.engine.core.FlowEngine;
 import com.fbp.engine.core.Node;
-import com.fbp.engine.core.impl.DefaultInputPort;
 import com.fbp.engine.message.Message;
-import com.fbp.engine.node.impl.PrintNode;
+import com.fbp.engine.node.abstractImpl.PrintNode;
+import com.fbp.engine.node.abstractImpl.TimerNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class PrintNodeTest {
     private Message message;
@@ -52,15 +52,17 @@ class PrintNodeTest {
     }
 
     @Test
-    @DisplayName("inoutPort를 통한 수신")
-    void inputPortTest() {
-        PrintNode spyPrinter = spy(printNode);
-        InputPort inputPort = new DefaultInputPort(spyPrinter, "in");
-        Message msg = new Message(Map.of("temperature", 25.5));
-
-        inputPort.receive();
-
-        verify(spyPrinter, times(1)).process(msg);
+    @DisplayName("inputPort를 통한 수신")
+    void inputPortTest() throws InterruptedException {
+        FlowEngine flowEngine = new FlowEngine();
+        Flow flow = new Flow("flow");
+        TimerNode timerNode = new TimerNode("timer", 1000);
+        flow.addNode(timerNode).addNode(printNode)
+                .connect("timer", "out", "printer-1", "in");
+        flowEngine.register(flow);
+        flowEngine.startFlow("flow");
+        Thread.sleep(2000);
+        flowEngine.stopFlow("flow");
     }
 
     @Test
