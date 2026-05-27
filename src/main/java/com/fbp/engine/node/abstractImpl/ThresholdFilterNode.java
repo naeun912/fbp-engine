@@ -23,8 +23,7 @@ public class ThresholdFilterNode extends AbstractNode {
         if (value instanceof Number) {
             double o = ((Number) value).doubleValue();
             if (threshold < o) {
-                Message alertMessage = message.withEntry("checkField", fieldName);
-//                send("alert", message);
+                Message alertMessage = message.withEntry("checkField", fieldName).withEntry("alertCode", 1);
                 send("alert", alertMessage);
             } else {
                 send("normal", message);
