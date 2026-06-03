@@ -1,4 +1,4 @@
-package com.fbp.engine.runner;
+package com.fbp.engine.runner.modbus;
 
 import com.fbp.engine.core.Flow;
 import com.fbp.engine.modbus.ModbusReaderNode;
@@ -19,7 +19,7 @@ public class ModbusFlowTest {
         simulator.setRegister(2, 0);
         simulator.start(); //
 
-        
+
         Flow flow = new Flow("stage-3-9-control-flow");
 
         // 3. 노드 설정지(Config) 작성

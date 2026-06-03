@@ -59,7 +59,7 @@ public class MqttPublisherNode extends ProtocolNode {
         try {
             String jsonPayload = objectMapper.writeValueAsString(message.payload());
 
-
+            System.out.println("[MQTT 발행 데이터]: " + jsonPayload);
             String topic = (String) message.payload().get("topic");
 
             if (topic == null || topic.isEmpty()) {

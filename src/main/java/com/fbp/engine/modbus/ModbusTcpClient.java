@@ -2,6 +2,7 @@ package com.fbp.engine.modbus;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ModbusTcpClient {
     private final String host;
@@ -66,7 +67,7 @@ public class ModbusTcpClient {
         return tid;
     }
 
-    public int[] readHoldingRegisters(int unitId, int startAddress, int quantity) {
+    public int[] readHoldingRegisters(int unitId, int startAddress, int quantity) throws SocketTimeoutException {
         try {
             int currentTid = transactionId++;
             buildMbapHeader(currentTid, 6, unitId);
@@ -89,7 +90,7 @@ public class ModbusTcpClient {
             }
             return registers;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SocketTimeoutException();
         }
     }
 

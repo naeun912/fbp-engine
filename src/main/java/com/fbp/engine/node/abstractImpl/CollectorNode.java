@@ -20,6 +20,7 @@ public class CollectorNode extends AbstractNode {
     @Override
     public void onProcess(Message message) {
         collected.add(message);
+        System.out.println("[" + getId() + "] 결과 | " + message.payload());
     }
 
 }

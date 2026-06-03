@@ -48,8 +48,6 @@ public class ModbusReaderNode extends ProtocolNode {
 
     @Override
     public void onProcess(Message message) {
-        super.onProcess(message);
-
         try {
             int[] values = client.readHoldingRegisters(slaveId, startAddress, count);
 
@@ -82,6 +80,6 @@ public class ModbusReaderNode extends ProtocolNode {
 
     @Override
     protected byte[] readData() throws IOException {
-        return new byte[0];
+        return null;
     }
 }

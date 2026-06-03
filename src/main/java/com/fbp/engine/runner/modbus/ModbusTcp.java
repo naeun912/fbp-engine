@@ -1,4 +1,4 @@
-package com.fbp.engine.runner;
+package com.fbp.engine.runner.modbus;
 
 import com.fbp.engine.modbus.ModbusTcpClient;
 import com.fbp.engine.modbus.ModbusTcpSimulator;

@@ -55,22 +55,6 @@ public abstract class AbstractNode implements Node {
 
     @Override
     public void initialize() {
-//        for (InputPort inputPort : getInputPorts().values()) {
-//            Thread t = new Thread(() -> {
-//                try {
-//                    while (!Thread.currentThread().isInterrupted()) {
-//                        Message message = inputPort.receive();
-//                        process(message);
-//
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//            t.setDaemon(true);
-//            t.start();
-//        }
-
         // message에 출처정보를 추가하기 위한 코드
         for (Map.Entry<String, InputPort> entry : inputPorts.entrySet()) {
             String portName = entry.getKey();

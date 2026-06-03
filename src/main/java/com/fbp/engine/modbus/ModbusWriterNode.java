@@ -77,6 +77,6 @@ public class ModbusWriterNode extends ProtocolNode {
 
     @Override
     protected byte[] readData() throws IOException {
-        return new byte[0];
+        return null;
     }
 }
